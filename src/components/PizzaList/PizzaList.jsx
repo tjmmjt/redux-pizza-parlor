@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const PizzaList = () => {
   // return all pizzas which will render to DOM
   const [pizzaList, setPizzaList] = useState([]);
+  // declare dispatch
+  const dispatch = useDispatch()
+
   useEffect(() => {
     handleGet();
   }, []);
@@ -20,30 +24,35 @@ const PizzaList = () => {
       });
   };
 
+  // const addToCart = ({pizza}) => {
+  //   dispatch({
+  //     type: 'ADD_TO_CART',
+  //     payload: {pizza}
+  //   })
+  // }
+
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            {/* <th>Image</th> */}
-          </tr>
-        </thead>
-        <tbody>
+     
+      
+       
           {pizzaList.map((pizza) => {
             return (
-              <tr key={pizza.id}>
-                <td>{pizza.name}</td>
-                <td>{pizza.description}</td>
-                <td>{pizza.price}</td>
-                {/* <td><img src={pizza.description} alt="" /></td> */}
-              </tr>
+              <div key={pizza.id} className="container">
+                <div className='imgContainer'>
+                 <img src='images/pizza_photo.png' />
+                </div>
+              <div className='infoContainer'>
+                <p>{pizza.name}</p>
+                <p>{pizza.description}</p>
+                <p>${pizza.price}</p>
+                <button onClick={() => dispatch({type: 'ADD_TO_CART', payload: pizza})}>Add to Cart</button>
+              </div>
+              </div>
             );
           })}
-        </tbody>
-      </table>
+       
+        
     </>
   );
 };
