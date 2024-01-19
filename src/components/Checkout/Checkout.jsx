@@ -1,12 +1,17 @@
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+
 
 
 const Checkout = () => {
-  const customerInfo = useSelector(store => store.customerInfo)
+  let customerInfo = useSelector(store => store.customerInfo)
   console.log(customerInfo);
-  const cart = useSelector(store => store.cart)
+  let cart = useSelector(store => store.cart)
   console.log("cart:", cart);
-
+  const dispatch = useDispatch();
+  const history = useHistory()
   // ! Total 
 
 let total = 0
@@ -17,7 +22,14 @@ const calcTotal = () => {
   // console.log('total:', total);
   return total
 }
+const clearState = () => {
+  dispatch({type:'CLEAR_CART'});
+  dispatch({type:'CLEAR_CUSTOMER_INFO'})
+  history.push('/')
+}
+
 calcTotal()
+
   return (
     <>
       <h2>Checkout</h2>
@@ -27,6 +39,7 @@ calcTotal()
         <h4>Address:</h4><span>{customerInfo.street_address}</span>
         <h4>City:</h4><span> {customerInfo.city}</span>
         <h4>Zip:</h4><span> {customerInfo.zip}</span>
+        <button onClick={clearState}>Checkout</button>
       </div>
     </>
   );
