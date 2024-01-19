@@ -3,8 +3,8 @@ import logger from 'redux-logger';
 
 // Be sure to replace this reducer! 🙂
 const customerInfo = (state = {}, action) => {
-  if(action.type === 'ADD_TO_CUSTOMER_INFO'){
-    return [...state, action.payload]
+  if(action.type === 'ADD_CUSTOMER_INFO'){
+    return action.payload
     }
   return state;
 }

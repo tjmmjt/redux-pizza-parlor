@@ -1,43 +1,53 @@
-import { HashRouter as Router, Route, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState} from "react";
+import { useHistory } from "react-router-dom";
 
-function CustomerInfo(customer) {
-  const [customerList, setCustomerList] = useState({});
+
+function CustomerInfo() {
+  const [customer, setCustomer] = useState({
+    customer_name: '',
+    street_address: '',
+    city: '',
+    zip: ''
+  });
 
   const dispatch = useDispatch();
+  const history = useHistory()
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    // console.log(customer);
+    dispatch({ type: 'ADD_CUSTOMER_INFO', payload: customer })
+    history.push('/checkout')
+  }
 
   return (
     <>
       'Contact Info'
       <form
-        onSubmit={() =>
-          dispatch({ type: "ADD_TO_CUSTOMER_INFO", payload: customer })
-        }
+        onSubmit={handleSubmit}
       >
         <input
-          onChange={setCustomerList.customer_name}
+          onChange={(event) => setCustomer({...customer, customer_name: event.target.value})}
           type="text"
           placeholder="Name"
         ></input>
         <input
-          onChange={setCustomerList.street_address}
+          onChange={(event) => setCustomer({...customer, street_address: event.target.value})}
           type="text"
           placeholder="Street Address"
         ></input>
         <input
-          onChange={setCustomerList.city}
+          onChange={(event) => setCustomer({...customer, city: event.target.value})}
           type="text"
           placeholder="City"
         ></input>
         <input
-          onChange={setCustomerList.zip}
-          type="number"
+          onChange={(event) => setCustomer({...customer, zip: event.target.value})}
+          type="text"
           placeholder="Zip"
         ></input>
-        <Link to="/checkout/">
-          <button>Proceed</button>
-        </Link>
+        <button>Next</button>
       </form>
     </>
   );
